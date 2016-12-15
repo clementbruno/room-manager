@@ -1,8 +1,3 @@
-.bottom-index {
-  display: flex;
-  justify-content: space-between;
-}
-
 .btn-page {
   color: #3397E3;
   background-color: white;
@@ -14,4 +9,10 @@
   background-color: white;
   border: 1px solid #3397E3;
   font-weight: bolder;
+}
+
+.rooms {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

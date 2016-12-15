@@ -4,6 +4,7 @@ class RoomsController < ApplicationController
   def index
     @all_rooms = Room.all
     @rooms = @all_rooms.paginate(:page => params[:page], :per_page => 12).order('sits DESC')
+    @room = Room.new
   end
 
   #
@@ -22,7 +23,7 @@ class RoomsController < ApplicationController
     @room.user = current_user
     if @room.save
       flash[:notice] = 'Your room was successfully created'
-      redirect_to room_path(@room)
+      redirect_to rooms_path
     else
       render :new
     end
@@ -31,7 +32,7 @@ class RoomsController < ApplicationController
   def update
     if @room.update(room_params)
       flash[:notice] = 'Your room was successfully updated'
-      redirect_to room_path(@room)
+      redirect_to rooms_path
     else
       render :edit
     end
