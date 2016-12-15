@@ -2,7 +2,8 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [ :show, :edit, :update ]
   #Afficher les rooms du user qui les a cree
   def index
-    @rooms = Room.all
+    @all_rooms = Room.all
+    @rooms = @all_rooms.paginate(:page => params[:page], :per_page => 12).order('sits DESC')
   end
 
   #
