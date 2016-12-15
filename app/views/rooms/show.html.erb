@@ -1,0 +1,38 @@
+<!-- Pour le moment chemin coupé à voir si on garde -->
+
+<div class="banner-cover-img">
+  <% if @room.photo? %>
+    <div class="img-responsive">
+      <%= cl_image_tag @room.photo.path %>
+    </div>
+  <% else %>
+    <div class="img-responsive">
+      <%= image_tag "default_show.JPG", height: 250 %>
+    </div>
+  <% end %>
+</div>
+
+<div class="row" >
+  <div class="details">
+    <div class="info">
+      <h1><%= @room.name %></h1>
+      <p><em><%= @room.user.email %></em></p>
+    </div>
+    <div class="edit">
+        <% if current_user.id == @room.user.id %>
+          <%= link_to "Modifier", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
+        <% end %>
+    </div>
+  </div>
+    <hr>
+    <div class="meal-icons">
+      <div class="text-center">
+        <%= image_tag "chair.svg" %><br>
+        <p><%= @room.sits %> places</p>
+      </div>
+    </div>
+    <hr>
+  <%= link_to "Retour à la liste", rooms_path, class: "btn btn-info" %>
+</div>
+
+

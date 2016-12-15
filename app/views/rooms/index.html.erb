@@ -1,49 +1,78 @@
 <div class="container">
-  <div class="search">
-    <div class="search-sidebar">
-      <div class="search-box">
-        <h3>Liste des salles</h3>
-        <% if @rooms.length > 1 %>
-        <p><em><%= @rooms.length %> salles trouvées</em></p>
-        <% elsif @rooms.length == 0 %>
-        <p><em>Aucune salle trouvée</em></p>
-        <% else %>
-        <p><em><%= @rooms.length %> salle trouvée</em></p>
-        <% end %>
-      </div>
-      <div class="search-results">
-        <div class= "row">
-          <div class="col-xs-12">
-            <div class="row">
-              <% @rooms.each do |room| %>
-              <div class="listing-card-wrapper col-xs-12 col-sm-6 space-4 col-md-3 space-4">
-                <% if room.photo? %>
-                  <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= cl_image_path room.photo.path, height: 175, width: 360, crop: :fill; %>');">
-                <% else %>
-                  <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= asset_path 'default_card.jpg' %>');">
-                <% end %>
-                  <div class="card-category"><%= room.name %></div>
-                  <div class="card-description">
-                    <p><em>Nombre de places: <%= room.sits %></em></p>
-                  </div>
-                   <% if room.user.photo? %>
-                      <%= cl_image_tag room.user.photo.path, height: 30, width: 30, crop: :fill, gravity: :face, class: "card-user avatar" %>
-                    <% else %>
-                      <%= image_tag "default_profile.jpg", class: "card-user avatar" %>
-                    <% end %>
-                  <%= link_to "", room_path(room), class: "card-link" %>
-                  </div>
-                </div>
+  <div class="rooms">
+    <div>
+    <h3>Liste des salles</h3>
+    <% if @rooms.length > 1 %>
+    <p><em><%= @rooms.length %> salles trouvées</em></p>
+    <% elsif @rooms.length == 0 %>
+    <p><em>Aucune salle trouvée</em></p>
+    <% else %>
+    <p><em><%= @rooms.length %> salle trouvée</em></p>
+    <% end %>
+    </div>
+    <div class="new">
+      <%= link_to "Ajouter une salle", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
+    </div>
+  </div>
+  <div class="search-results">
+    <div class= "row">
+      <div class="col-xs-12">
+        <div class="row">
+          <% @rooms.each do |room| %>
+          <div class="listing-card-wrapper col-xs-12 col-sm-6 space-4 col-md-3 space-4">
+            <% if room.photo? %>
+              <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= cl_image_path room.photo.path, height: 175, width: 360, crop: :fill; %>');">
+            <% else %>
+              <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= asset_path 'default_card.jpg' %>');">
+            <% end %>
+            <div class="card-category"><%= room.name %></div>
+              <div class="card-description">
+                <p><em>Nombre de places: <%= room.sits %></em></p>
+              </div>
+              <% if room.user.photo? %>
+                <%= cl_image_tag room.user.photo.path, height: 30, width: 30, crop: :fill, gravity: :face, class: "card-user avatar" %>
+              <% else %>
+                <%= image_tag "default_profile.jpg", class: "card-user avatar" %>
               <% end %>
-              </div>
-              <hr>
-              <div class="bottom-index">
-              <span><%= link_to 'Ajouter une salle', new_room_path, class: "btn btn-primary" %></span>
-                <%= will_paginate @rooms, class: "btn btn-primary btn-page" %>
-              </div>
+              <%= link_to "", edit_room_path(room), class: "card-link" %>
             </div>
           </div>
+          <% end %>
         </div>
+        <% if @all_rooms.length > 12 %>
+          <hr>
+          <div class="bottom-index">
+            <%= will_paginate @rooms, class: "btn btn-primary btn-page" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Ci-dessous modal déclenchée par le CTA permettant de créer une nouvelle salle -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Création d'une salle</h4>
+      </div>
+      <div class="modal-body">
+        <!-- FORMULAIRE -->
+        <%= simple_form_for(@room) do |f| %>
+          <%= f.error_notification %>
+            <div class="form-inputs">
+            <%= f.input :name, label: "Nom de la salle" %>
+            <%= f.input :sits, label: "Nombre de places assises" %>
+            <%= f.input :photo, as: :attachinary; %>
+            <div class="form-actions">
+              <%= f.button :submit %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
