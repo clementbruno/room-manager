@@ -34,7 +34,12 @@
                   <%= link_to "", room_path(room), class: "card-link" %>
                   </div>
                 </div>
-                <% end %>
+              <% end %>
+              </div>
+              <hr>
+              <div class="bottom-index">
+              <span><%= link_to 'Ajouter une salle', new_room_path, class: "btn btn-primary" %></span>
+                <%= will_paginate @rooms, class: "btn btn-primary btn-page" %>
               </div>
             </div>
           </div>
