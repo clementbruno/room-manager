@@ -3,6 +3,8 @@
     <div class="search-box">
       <% if @rooms.length > 1 %>
       <h3><em><%= @rooms.length %> rooms found</em></h3>
+      <% elsif @rooms.length == 0 %>
+      <h3><em>No room found</em></h3>
       <% else %>
       <h3><em><%= @rooms.length %> room found</em></h3>
       <% end %>

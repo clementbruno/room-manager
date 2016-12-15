@@ -2,7 +2,7 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [ :show, :edit, :update ]
   #Afficher les rooms du user qui les a cree
   def index
-    @rooms = Room.where(user_id: current_user)
+    @rooms = Room.all
   end
 
   #
