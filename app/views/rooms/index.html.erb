@@ -1,0 +1,40 @@
+<div class="search">
+  <div class="search-sidebar">
+    <div class="search-box">
+      <% if @rooms.length > 1 %>
+      <h3><em><%= @rooms.length %> rooms found</em></h3>
+      <% else %>
+      <h3><em><%= @rooms.length %> room found</em></h3>
+      <% end %>
+    </div>
+    <div class="search-results">
+      <div class= "row">
+        <div class="col-xs-12">
+          <div class="row">
+            <% @rooms.each do |room| %>
+            <div class="listing-card-wrapper col-sm-12 col-md-6 space-4">
+              <% if room.photo? %>
+                <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= cl_image_path room.photo.path, height: 175, width: 360, crop: :fill; %>');">
+                <% else %>
+                <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= asset_path 'default_card.jpg' %>');">
+                <% end %>
+                <div class="card-category"><%= room.name %></div>
+                <div class="card-description">
+                  <h2><%= room.user.email %></h2>
+                </div>
+                 <% if room.user.photo? %>
+                    <%= cl_image_tag room.user.photo.path, height: 30, width: 30, crop: :fill, gravity: :face, class: "card-user avatar" %>
+                  <% else %>
+                    <%= image_tag "default_profile.jpg", class: "card-user avatar" %>
+                  <% end %>
+                <%= link_to "", room_path(room), class: "card-link" %>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+

@@ -1,2 +1,96 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="hero-container">
+  <div class="hero-tagline full-height">
+   <div class="container full-height">
+    <div class="row full-height">
+      <div class="col-xs-12 full-height flex-center">
+        <div class="cta-content">
+          <div class="flex-center">
+            <%= image_tag 'event_corner_logo.png', height: 70 %>
+          </div>
+          <h1 class="text-center">Gérez vos réservations de salles simplement.</h1>
+          <h2 style="margin-left: 3%;">Avec notre outil
+            <span class="txt-rotate data-period="2000" data-rotate='[ "créez", "modifiez", "annuler" ]'></span> vos réservations</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="hero-cta">
+    <div class="container full-height">
+      <div class="row full-height">
+        <div class="col-xs-12 flex-center full-height">
+          <div class="flex-column">
+            <%= link_to 'Commencer mon diagnostic', diagnostic_path, class: "btn-datarra btn-cta" %>
+            <p class="disclamer">Aucune inscription n'est nécessaire, promis. 😉</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for(:js) do %>
+  <script>
+    $( document ).ready(function() {
+        var link = $('.navbar-wagon');
+        var button = $('.navbar-wagon-right .navbar-wagon-button');
+        link.remove();
+    });
+    var TxtRotate = function(el, toRotate, period) {
+      this.toRotate = toRotate;
+      this.el = el;
+      this.loopNum = 0;
+      this.period = parseInt(period, 10) || 2000;
+      this.txt = '';
+      this.tick();
+      this.isDeleting = false;
+    };
+
+    TxtRotate.prototype.tick = function() {
+      var i = this.loopNum % this.toRotate.length;
+      var fullTxt = this.toRotate[i];
+
+      if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+      } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+      }
+
+      this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+      var that = this;
+      var delta = 100 - Math.random() * 100;
+
+      if (this.isDeleting) { delta /= 2; }
+
+      if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 200;
+      }
+
+      setTimeout(function() {
+        that.tick();
+      }, delta);
+    };
+
+    window.onload = function() {
+      var elements = document.getElementsByClassName('txt-rotate');
+      for (var i=0; i<elements.length; i++) {
+        var toRotate = elements[i].getAttribute('data-rotate');
+        var period = elements[i].getAttribute('data-period');
+        if (toRotate) {
+          new TxtRotate(elements[i], JSON.parse(toRotate), period);
+        }
+      }
+      // INJECT CSS
+      var css = document.createElement("style");
+      css.type = "text/css";
+      css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
+      document.body.appendChild(css);
+    };
+  </script>
+<% end %>
