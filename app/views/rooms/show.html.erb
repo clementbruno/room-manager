@@ -71,7 +71,8 @@
               Début : <%= booking.start_time.strftime("%e %b %Y - %H:%M") %><br>
               Fin : <%= booking.end_time.strftime("%e %b %Y - %H:%M") %></p>
             <div class="controls">
-              <%= link_to "Modifier", "#", class: "btn btn-info", :data => { :toggle => "modal", :target => "#Edit"} %>
+              <%= link_to "Modifier", edit_room_booking_path(booking, room_id: @room), class: "btn btn-info btn-left" %>
+              <%= link_to "Annuler", room_booking_path(booking, room_id: @room), method: :delete, class: "btn btn-danger" %>
             </div>
           </div>
           <% end %>
@@ -141,32 +142,6 @@
       <div class="modal-body">
         <!-- FORMULAIRE -->
         <%= simple_form_for [@room, @booking] do |f| %>
-          <%= f.error_notification %>
-          <div class="form-inputs">
-            <%= f.input :name, label: "Nom de la reservation" %>
-            <%= f.input :start_time, class: "datepicker" %>
-            <%= f.input :end_time, class: "datepicker"%>
-            <div class="form-actions">
-              <%= f.button :submit %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Ci-dessous modal déclenchée par le CTA permettant de modifier une réservation sur une salle -->
-<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modification de la réservation</h4>
-      </div>
-      <div class="modal-body">
-        <!-- FORMULAIRE -->
-        <%= simple_form_for [@room, @booking], method: :patch, remote: true do |f| %>
           <%= f.error_notification %>
           <div class="form-inputs">
             <%= f.input :name, label: "Nom de la reservation" %>
