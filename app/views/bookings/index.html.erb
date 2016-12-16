@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="calendar">
+    <%= month_calendar events: @bookings do |date, bookings| %>
+    <%= date.strftime("%b %d") %>
+
+      <% bookings.each do |booking| %>
+        <div class="event-info">
+          <h4 class="booking"><%= booking.name %></h4>
+          <p class="booking">Salle : <%= booking.room.name %></p>
+          <em><p class="booking">Debut : <%= booking.start_time.strftime("%H:%M") %></p>
+          <p class="booking">Fin : <%= booking.end_time.strftime("%H:%M") %></p></em>
+        </div><br>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+

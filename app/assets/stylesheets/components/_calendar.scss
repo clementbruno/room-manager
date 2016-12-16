@@ -1,0 +1,39 @@
+.simple-calendar {
+  .day {
+    height: 120px;
+  }
+
+  // .wday-0 {}
+  // .wday-1 {}
+  // .wday-2 {}
+  // .wday-3 {}
+  // .wday-4 {}
+  // .wday-5 {}
+  // .wday-6 {}
+
+  // .today {}
+  // .past {}
+  // .future {}
+
+  // .start-date {}
+
+  // .prev-month {}
+  // .next-month {}
+//   .current-month {}
+
+//   .has-events {}
+}
+
+.calendar {
+  margin-top: 20px;
+}
+
+.booking {
+  color: red;
+  font-size: 14px;
+}
+
+.event-info > h4 {
+  font-weight: bold;
+}
+

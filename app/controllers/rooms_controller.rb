@@ -9,6 +9,7 @@ class RoomsController < ApplicationController
 
   #
   def show
+    @room_bookings = Booking.where(room_id: params[:id])
   end
 
   def new
@@ -23,7 +24,7 @@ class RoomsController < ApplicationController
     @room.user = current_user
     if @room.save
       flash[:notice] = 'Your room was successfully created'
-      redirect_to rooms_path
+      redirect_to room_path(@room)
     else
       render :new
     end
@@ -32,7 +33,7 @@ class RoomsController < ApplicationController
   def update
     if @room.update(room_params)
       flash[:notice] = 'Your room was successfully updated'
-      redirect_to rooms_path
+      redirect_to room_path(@room)
     else
       render :edit
     end
@@ -45,6 +46,6 @@ class RoomsController < ApplicationController
   end
 
   def room_params
-    params.require(:room).permit(:user_id, :name, :available, :sits, :photo)
+    params.require(:room).permit(:user_id, :name, :available, :sits, :photo, :description, :catering, :handicap)
   end
 end
