@@ -9,6 +9,7 @@ class RoomsController < ApplicationController
 
   #
   def show
+    @booking = Booking.new
     @room_bookings = Booking.where(room_id: params[:id])
   end
 
@@ -28,6 +29,7 @@ class RoomsController < ApplicationController
     else
       render :new
     end
+
   end
 
   def update

@@ -56,11 +56,20 @@
           <p class="text-justify"><%= @room.description %></p>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-4">
+      <div class="col-xs-12 col-sm-6">
         <div class="room-book-box">
           <h3 class="text-center">Réserver cet espace</h3>
-            <%= button_to "Book", [@room, :booking], class: "btn btn-booking",  style: "width: 100%" %>
+            <%= button_to "Book", [@room, :booking], class: "btn btn-booking",  style: "width: 100%", :data => { :toggle => "modal", :target => "#Book"} %>
             <%= link_to "Book", "#", class: "btn btn-booking", :data => { :toggle => "modal", :target => "#Book"} %>
+            <%= link_to "Book", new_room_booking_path(:room_id => @room.id), class: "btn btn-info" %>
+        </div>
+        <div class="existing-bookings">
+        <p>Réservations existantes de la salle <%= @room.name %> : </p>
+          <% @room_bookings.each_with_index do | booking, index | %>
+            <p style="margin-left: 10px;"><strong><%= index+1 %>. <%= booking.name %></strong><br>
+            Début : <%= booking.start_time.strftime("%e %b %Y - %H:%M") %><br>
+            Fin : <%= booking.end_time.strftime("%e %b %Y - %H:%M") %></p>
+          <% end %>
         </div>
       </div>
     </div>
@@ -68,7 +77,9 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container"><br><br>
+<h4>Calendrier des réservations de la salle <%= @room.name %></h4>
+<hr>
   <div class="calendar">
     <%= month_calendar events: @room_bookings do |date, bookings| %>
     <%= date.strftime("%b %d") %>
@@ -97,7 +108,7 @@
         <!-- FORMULAIRE -->
         <%= simple_form_for(@room) do |f| %>
           <%= f.error_notification %>
-            <div class="form-inputs">
+          <div class="form-inputs">
             <%= f.input :name, label: "Nom de la salle" %>
             <%= f.input :sits, label: "Nombre de places assises" %>
             <%= f.input :description, label: "Description" %>
@@ -107,6 +118,7 @@
             <div class="form-actions">
               <%= f.button :submit %>
             </div>
+          </div>
         <% end %>
       </div>
     </div>
@@ -123,20 +135,20 @@
       </div>
       <div class="modal-body">
         <!-- FORMULAIRE -->
-        <%= simple_form_for(@room) do |f| %>
+        <%= simple_form_for [@room, @booking] do |f| %>
           <%= f.error_notification %>
-            <div class="form-inputs">
-            <%= f.input :name, label: "Nom de la salle" %>
-            <%= f.input :sits, label: "Nombre de places assises" %>
-            <%= f.input :description, label: "Description" %>
-            <%= f.input :handicap, label: "Acces handicapé" %>
-            <%= f.input :catering, label: "Service traiteur" %>
-            <%= f.input :photo, as: :attachinary; %>
+          <div class="form-inputs">
+            <%= f.input :name, label: "Nom de la reservation" %>
+            <%= f.input :start_time, class: "datepicker" %>
+            <%= f.input :end_time, class: "datepicker"%>
             <div class="form-actions">
               <%= f.button :submit %>
             </div>
+          </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+
