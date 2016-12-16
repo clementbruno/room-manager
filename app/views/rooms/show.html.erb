@@ -57,18 +57,23 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div class="room-book-box">
+        <div class="room-book-box text-center">
           <h3 class="text-center">Réserver cet espace</h3>
-            <%= button_to "Book", [@room, :booking], class: "btn btn-booking",  style: "width: 100%", :data => { :toggle => "modal", :target => "#Book"} %>
+
             <%= link_to "Book", "#", class: "btn btn-booking", :data => { :toggle => "modal", :target => "#Book"} %>
-            <%= link_to "Book", new_room_booking_path(:room_id => @room.id), class: "btn btn-info" %>
+
         </div>
-        <div class="existing-bookings">
         <p>Réservations existantes de la salle <%= @room.name %> : </p>
+        <div class="existing-bookings">
           <% @room_bookings.each_with_index do | booking, index | %>
-            <p style="margin-left: 10px;"><strong><%= index+1 %>. <%= booking.name %></strong><br>
-            Début : <%= booking.start_time.strftime("%e %b %Y - %H:%M") %><br>
-            Fin : <%= booking.end_time.strftime("%e %b %Y - %H:%M") %></p>
+          <div class="info">
+              <p style="margin-left: 10px;"><strong><%= index+1 %>. <%= booking.name %></strong><br>
+              Début : <%= booking.start_time.strftime("%e %b %Y - %H:%M") %><br>
+              Fin : <%= booking.end_time.strftime("%e %b %Y - %H:%M") %></p>
+            <div class="controls">
+              <%= link_to "Modifier", "#", class: "btn btn-info", :data => { :toggle => "modal", :target => "#Edit"} %>
+            </div>
+          </div>
           <% end %>
         </div>
       </div>
@@ -151,4 +156,29 @@
   </div>
 </div>
 
+<!-- Ci-dessous modal déclenchée par le CTA permettant de modifier une réservation sur une salle -->
+<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modification de la réservation</h4>
+      </div>
+      <div class="modal-body">
+        <!-- FORMULAIRE -->
+        <%= simple_form_for [@room, @booking], method: :patch, remote: true do |f| %>
+          <%= f.error_notification %>
+          <div class="form-inputs">
+            <%= f.input :name, label: "Nom de la reservation" %>
+            <%= f.input :start_time, class: "datepicker" %>
+            <%= f.input :end_time, class: "datepicker"%>
+            <div class="form-actions">
+              <%= f.button :submit %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
