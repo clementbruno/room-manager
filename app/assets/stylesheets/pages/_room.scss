@@ -1,0 +1,43 @@
+.details {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.room-icons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #CCCCCC;
+}
+
+.room-icons i {
+  font-size: 30px;
+}
+
+.room-book-box {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  border: 1px solid #dce0e0;
+  padding: 20px;
+  z-index:50;
+}
+
+.btn-booking {
+  background-color: #30102D;
+  color: white;
+  height: 60px;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.btn-booking:hover {
+  background-color: #30102D;
+  color: white;
+  height: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+

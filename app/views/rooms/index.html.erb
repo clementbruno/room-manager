@@ -34,7 +34,7 @@
               <% else %>
                 <%= image_tag "default_profile.jpg", class: "card-user avatar" %>
               <% end %>
-              <%= link_to "", edit_room_path(room), class: "card-link" %>
+              <%= link_to "", room_path(room), class: "card-link" %>
             </div>
           </div>
           <% end %>
@@ -65,6 +65,9 @@
             <div class="form-inputs">
             <%= f.input :name, label: "Nom de la salle" %>
             <%= f.input :sits, label: "Nombre de places assises" %>
+            <%= f.input :description, label: "Description" %>
+            <%= f.input :handicap, label: "Acces handicapé" %>
+            <%= f.input :catering, label: "Service traiteur" %>
             <%= f.input :photo, as: :attachinary; %>
             <div class="form-actions">
               <%= f.button :submit %>

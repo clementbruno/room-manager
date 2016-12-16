@@ -1,38 +1,142 @@
-<!-- Pour le moment chemin coupé à voir si on garde -->
 
-<div class="banner-cover-img">
+<!-- Voir si on integre ou non une banner pour les show, ce n'est eut etre pas tres pertinent -->
+<!-- <div class="banner-cover-img">
   <% if @room.photo? %>
     <div class="img-responsive">
-      <%= cl_image_tag @room.photo.path %>
+      <%= cl_image_tag @room.photo.path, :width => :auto %>
     </div>
   <% else %>
     <div class="img-responsive">
-      <%= image_tag "default_show.JPG", height: 250 %>
+      <%= image_tag "default_show.jpg", height: 250 %>
     </div>
   <% end %>
-</div>
+</div> -->
 
-<div class="row" >
-  <div class="details">
-    <div class="info">
-      <h1><%= @room.name %></h1>
-      <p><em><%= @room.user.email %></em></p>
-    </div>
-    <div class="edit">
-        <% if current_user.id == @room.user.id %>
-          <%= link_to "Modifier", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
-        <% end %>
-    </div>
-  </div>
-    <hr>
-    <div class="meal-icons">
-      <div class="text-center">
-        <%= image_tag "chair.svg" %><br>
-        <p><%= @room.sits %> places</p>
+<div class="container room-container">
+  <div class="row" >
+    <div class="col-xs-12 col-sm-6">
+      <div class="details">
+        <div class="info">
+          <h1><%= @room.name %></h1>
+          <p><em><%= @room.user.email %></em></p>
+        </div>
+        <div class="edit">
+            <% if current_user.id == @room.user.id %>
+              <%= link_to "Modifier", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
+            <% end %>
+        </div>
+      </div>
+        <hr>
+        <div class="room-icons">
+          <div class="text-center">
+            <i class="fa fa-users" aria-hidden="true"></i><br>
+            <p><%= @room.sits %> places</p>
+          </div>
+          <div class="text-center">
+            <i class="fa fa-wheelchair" aria-hidden="true"></i><br>
+            <% if @room.handicap %>
+              <p>Accessible aux personnes à mobilité réduite</p>
+            <% else %>
+              <p>Non accessible aux personnes à mobilité réduite</p>
+            <% end %>
+          </div>
+          <div class="text-center">
+            <i class="fa fa-cutlery" aria-hidden="true"></i><br>
+            <% if @room.catering %>
+              <p>Service traiteur</p>
+            <% else %>
+              <p>Pas de service traiteur</p>
+            <% end %>
+          </div>
+        </div>
+        <hr><br>
+         <div class="room-description">
+          <h3>Description de la salle <%= @room.name %></h3>
+          <hr>
+          <p class="text-justify"><%= @room.description %></p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <div class="room-book-box">
+          <h3 class="text-center">Réserver cet espace</h3>
+            <%= button_to "Book", [@room, :booking], class: "btn btn-booking",  style: "width: 100%" %>
+            <%= link_to "Book", "#", class: "btn btn-booking", :data => { :toggle => "modal", :target => "#Book"} %>
+        </div>
       </div>
     </div>
-    <hr>
-  <%= link_to "Retour à la liste", rooms_path, class: "btn btn-info" %>
+    <%= link_to "Retour à la liste", rooms_path, class: "btn btn-info" %>
+  </div>
 </div>
 
+<div class="container">
+  <div class="calendar">
+    <%= month_calendar events: @room_bookings do |date, bookings| %>
+    <%= date.strftime("%b %d") %>
 
+      <% bookings.each do |booking| %>
+        <div class="event-info">
+          <h4 class="booking"><%= booking.name %></h4>
+          <p class="booking">Salle : <%= booking.room.name %></p>
+          <em><p class="booking">Debut : <%= booking.start_time.strftime("%H:%M") %></p>
+          <p class="booking">Fin : <%= booking.end_time.strftime("%H:%M") %></p></em>
+        </div><br>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<!-- Ci-dessous modal déclenchée par le CTA permettant de modifier une salle -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modification de la salle <%= @room.name %></h4>
+      </div>
+      <div class="modal-body">
+        <!-- FORMULAIRE -->
+        <%= simple_form_for(@room) do |f| %>
+          <%= f.error_notification %>
+            <div class="form-inputs">
+            <%= f.input :name, label: "Nom de la salle" %>
+            <%= f.input :sits, label: "Nombre de places assises" %>
+            <%= f.input :description, label: "Description" %>
+            <%= f.input :handicap, label: "Acces handicapé" %>
+            <%= f.input :catering, label: "Service traiteur" %>
+            <%= f.input :photo, as: :attachinary; %>
+            <div class="form-actions">
+              <%= f.button :submit %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ci-dessous modal déclenchée par le CTA permettant de creer une réservation sur une salle -->
+<div class="modal fade" id="Book" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Réservation de la salle <%= @room.name %></h4>
+      </div>
+      <div class="modal-body">
+        <!-- FORMULAIRE -->
+        <%= simple_form_for(@room) do |f| %>
+          <%= f.error_notification %>
+            <div class="form-inputs">
+            <%= f.input :name, label: "Nom de la salle" %>
+            <%= f.input :sits, label: "Nombre de places assises" %>
+            <%= f.input :description, label: "Description" %>
+            <%= f.input :handicap, label: "Acces handicapé" %>
+            <%= f.input :catering, label: "Service traiteur" %>
+            <%= f.input :photo, as: :attachinary; %>
+            <div class="form-actions">
+              <%= f.button :submit %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
