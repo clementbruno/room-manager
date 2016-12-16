@@ -19,20 +19,36 @@ class BookingsController < ApplicationController
   end
 
   def create
+    @room = Room.find(params[:room_id])
     @booking = Booking.new(booking_params)
     @booking.user = current_user
-    if @booking.save
-      flash[:notice] = 'Your booking was successfully created'
-      redirect_to bookings_path
-    else
-      render :new
+    @booking.room_id = @room.id
+    control = Booking.where(room_id: @booking.room_id).to_a
+    values = []
+    control.each do |booking|
+      #Ici on check pour verifier que l'intervalle de temps de reservation souhaite n'est pas en conflit avec une reservation existante portant le meme room_id
+      if (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time) >= 0
+      values << (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time)
+      end
     end
+
+    if !values.empty?
+      # if (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time) >= 0
+      flash[:alert] = "Your booking cannot be created since the room is already taken at that moment"
+    else
+      if @booking.save
+        flash[:notice] = 'Your booking was successfully created'
+      else
+        flash[:alert] = "Your booking couldn't be created"
+      end
+    end
+    redirect_to room_path(@room)
   end
 
   def update
     if @booking.update(booking_params)
       flash[:notice] = 'Your booking was successfully updated'
-      redirect_to bookings_path
+      redirect_to room_path(@room)
     else
       render :edit
     end
