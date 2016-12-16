@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_room, only: [ :show, :edit, :update ]
+  before_action :set_booking, only: [ :show, :edit, :update, :destroy ]
 
   #Afficher les rooms du user qui les a cree
   def index
@@ -46,6 +46,7 @@ class BookingsController < ApplicationController
   end
 
   def update
+    @room = @booking.room
     if @booking.update(booking_params)
       flash[:notice] = 'Your booking was successfully updated'
       redirect_to room_path(@room)
@@ -54,9 +55,15 @@ class BookingsController < ApplicationController
     end
   end
 
+  def destroy
+    @room = @booking.room
+    @booking.delete
+    redirect_to room_path(@room)
+  end
+
   private
 
-  def set_room
+  def set_booking
     @booking = Booking.find(params[:id])
   end
 

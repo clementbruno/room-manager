@@ -26,7 +26,8 @@
 .btn-booking {
   background-color: #30102D;
   color: white;
-  height: 60px;
+  height: 40px;
+  width: 200px;
   font-size: 20px;
   border-radius: 5px;
 }
@@ -34,10 +35,27 @@
 .btn-booking:hover {
   background-color: #30102D;
   color: white;
-  height: 60px;
+  height: 40px;
+  width: 200px;
   font-size: 20px;
   font-weight: bold;
   border-radius: 5px;
+}
+
+.info {
+  position: relative;
+}
+
+.controls {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 320px;
+  top: 25px;
+}
+
+.btn-left {
+  margin-right: 3px;
 }
 
 
