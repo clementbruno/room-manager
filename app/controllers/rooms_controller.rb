@@ -10,10 +10,9 @@ class RoomsController < ApplicationController
     bookings_filtered = []
     if (!params[:start_time].nil? && !params[:start_time].empty?) || (!params[:end_time].nil? && !params[:end_time].empty?)
       bookings.each do |booking|
-        #Ici on check pour verifier que l'intervalle de temps de reservation souhaite n'est pas en conflit avec une reservation existante portant le meme room_id
-
-        if (params[:start_time].to_time - booking.end_time) * (booking.start_time - params[:end_time].to_time) >= 0
-          # (params[:start_time].to_time..params[:end_time].to_time).overlaps?(booking.start_time..booking.end_time)
+        #Ici on check pour verifier que l'intervalle de temps de reservation souhaite n'est pas en conflit avec une reservation existante
+        #Les 3600 qui figurent dans chaque element du produit visent à neutraliser la différence liée au fuseau horaire de l'index qui est different de celui de simple form lors de la création du booking
+        if (params[:start_time].to_time - booking.end_time + 3600) * (booking.start_time - params[:end_time].to_time - 3600) >= 0
           bookings_filtered << booking
         end
       end
