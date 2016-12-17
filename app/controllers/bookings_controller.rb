@@ -28,18 +28,20 @@ class BookingsController < ApplicationController
     control.each do |booking|
       #Ici on check pour verifier que l'intervalle de temps de reservation souhaite n'est pas en conflit avec une reservation existante portant le meme room_id
       if (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time) >= 0
-      values << (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time)
+        values << (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time)
       end
     end
 
     if !values.empty?
       # if (@booking.start_time - booking.end_time) * (booking.start_time - @booking.end_time) >= 0
-      flash[:alert] = "Your booking cannot be created since the room is already taken at that moment"
+      flash[:alert] = "Votre réservation n'a pas pu être effectuée car il existe un conflit horaire avec une réservation existante"
+    elsif (@booking.end_time < @booking.start_time) || (@booking.start_time < Time.now)
+      flash[:alert] = "Votre réservation n'a pas pu être effectuée car les dates que vous avez indiquées ne sont pas valides"
     else
       if @booking.save
-        flash[:notice] = 'Your booking was successfully created'
+        flash[:notice] = 'Votre réervation a bien été créée'
       else
-        flash[:alert] = "Your booking couldn't be created"
+        flash[:alert] = "Votre réservation n'a pas pu être créée"
       end
     end
     redirect_to room_path(@room)

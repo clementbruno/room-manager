@@ -1,4 +1,5 @@
 <div class="container">
+  <%= link_to "Retour à la liste des salles", rooms_path, class: "btn btn-info", style:"margin-top: 10px;" %>
   <div class="calendar">
     <%= month_calendar events: @bookings do |date, bookings| %>
     <%= date.strftime("%b %d") %>

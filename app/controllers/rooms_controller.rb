@@ -5,29 +5,30 @@ class RoomsController < ApplicationController
     @all_rooms = Room.all
     @rooms = @all_rooms.paginate(:page => params[:page], :per_page => 12).order('sits DESC')
 
-    # @rooms.each do |room|
-    #   if room.sits >= params[:sits].to_i
-    #     @rooms_filtered << room
-    #   elsif params[:sits].empty? || params[:sits].nil?
-    #     @rooms_filtered = @rooms
-    #   end
-    # end
-
+    #Mise en place des filtres
     bookings = Booking.all
     bookings_filtered = []
-    if !params[:start_time].nil? || !params[:end_time].nil?
+    if (!params[:start_time].nil? && !params[:start_time].empty?) || (!params[:end_time].nil? && !params[:end_time].empty?)
       bookings.each do |booking|
         #Ici on check pour verifier que l'intervalle de temps de reservation souhaite n'est pas en conflit avec une reservation existante portant le meme room_id
+
         if (params[:start_time].to_time - booking.end_time) * (booking.start_time - params[:end_time].to_time) >= 0
-        bookings_filtered << booking
+          # (params[:start_time].to_time..params[:end_time].to_time).overlaps?(booking.start_time..booking.end_time)
+          bookings_filtered << booking
         end
       end
       @rooms_filtered = @rooms.to_a
       bookings_filtered.each do |booking|
         @rooms_filtered.reject! { |room| room == booking.room }
       end
+      if !params[:sits].nil?
+        @rooms_filtered.reject! { |room| room.sits < params[:sits].to_i }
+      end
     else
-      @rooms_filtered = @rooms
+      @rooms_filtered = @rooms.to_a
+      if !params[:sits].nil?
+        @rooms_filtered.reject! { |room| room.sits < params[:sits].to_i }
+      end
     end
 
     @room = Room.new
