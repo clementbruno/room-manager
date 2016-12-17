@@ -6,10 +6,13 @@
       Nb de personnes
       <%= number_field_tag :sits %>
       Debut
-      <%= datetime_local_field_tag :start_time, class: "datepicker" %>
+      <%= datetime_field_tag :start_time %>
       Fin
-      <%= datetime_field_tag :end_time, class: "datepicker"%>
+      <%= datetime_field_tag :end_time %>
       <%= submit_tag 'Filtrer' %>
+      <% if params[:commit] == "Filtrer" %>
+        <%= link_to "Effacer filtres", rooms_path, class: "btn btn-info" %>
+      <% end %>
     <% end %>
 
   </div>
