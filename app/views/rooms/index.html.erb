@@ -1,16 +1,31 @@
 <div class="container">
+  <div class="filter">
+
+    <h4>Filtrer :</h4>
+    <%= form_tag '', :method => :get do %>
+      Nb de personnes
+      <%= number_field_tag :sits %>
+      Debut
+      <%= datetime_local_field_tag :start_time, class: "datepicker" %>
+      Fin
+      <%= datetime_field_tag :end_time, class: "datepicker"%>
+      <%= submit_tag 'Filtrer' %>
+    <% end %>
+
+  </div>
   <div class="rooms">
     <div>
     <h3>Liste des salles</h3>
-    <% if @rooms.length > 1 %>
-    <p><em><%= @rooms.length %> salles trouvées</em></p>
-    <% elsif @rooms.length == 0 %>
+    <% if @rooms_filtered.length > 1 %>
+    <p><em><%= @rooms_filtered.length %> salles trouvées</em></p>
+    <% elsif @rooms_filtered.length == 0 %>
     <p><em>Aucune salle trouvée</em></p>
     <% else %>
-    <p><em><%= @rooms.length %> salle trouvée</em></p>
+    <p><em><%= @rooms_filtered.length %> salle trouvée</em></p>
     <% end %>
     </div>
     <div class="new">
+      <%= link_to "Calendrier de toutes les réservations", bookings_path, class: "btn btn-primary" %>
       <%= link_to "Ajouter une salle", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
     </div>
   </div>
@@ -18,7 +33,7 @@
     <div class= "row">
       <div class="col-xs-12">
         <div class="row">
-          <% @rooms.each do |room| %>
+          <% @rooms_filtered.each do |room| %>
           <div class="listing-card-wrapper col-xs-12 col-sm-6 space-4 col-md-3 space-4">
             <% if room.photo? %>
               <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= cl_image_path room.photo.path, height: 175, width: 360, crop: :fill; %>');">
