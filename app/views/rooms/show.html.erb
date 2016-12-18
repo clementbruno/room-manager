@@ -80,8 +80,8 @@
         <div class="event-info">
           <h4 class="booking"><%= booking.name %></h4>
           <p class="booking">Salle : <%= booking.room.name %></p>
-          <em><p class="booking">Debut : <%= booking.start_time.strftime("%H:%M") %></p>
-          <p class="booking">Fin : <%= booking.end_time.strftime("%H:%M") %></p></em>
+          <em><p class="booking">Debut : <%= booking.start_time.strftime("%b %e, %H:%M") %></p>
+          <p class="booking">Fin : <%= booking.end_time.strftime("%b %e, %H:%M") %></p></em>
         </div><br>
       <% end %>
     <% end %>
