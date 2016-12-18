@@ -1,7 +1,7 @@
 <div class="container">
   <div class="filter">
 
-    <h4>Filtrer :</h4>
+    <h4>Filtres :</h4>
     <%= form_tag '', :method => :get do %>
       Nb de personnes
       <%= number_field_tag :sits %>
@@ -9,7 +9,7 @@
       <%= datetime_field_tag :start_time %>
       Fin
       <%= datetime_field_tag :end_time %>
-      <%= submit_tag 'Filtrer' %>
+      <%= submit_tag 'Filtrer', class: "btn btn-filter btn-info" %>
       <% if params[:commit] == "Filtrer" %>
         <%= link_to "Effacer filtres", rooms_path, class: "btn btn-info" %>
       <% end %>
@@ -28,8 +28,8 @@
     <% end %>
     </div>
     <div class="new">
-      <%= link_to "Calendrier de toutes les réservations", bookings_path, class: "btn btn-primary" %>
-      <%= link_to "Ajouter une salle", "#", class: "btn btn-primary", :data => { :toggle => "modal", :target => "#myModal"} %>
+      <%= link_to "Calendrier de toutes les réservations", bookings_path, class: "btn btn-primary btn-index" %>
+      <%= link_to "Ajouter une salle", "#", class: "btn btn-primary btn-index", :data => { :toggle => "modal", :target => "#myModal"} %>
     </div>
   </div>
   <div class="search-results">
@@ -43,15 +43,10 @@
             <% else %>
               <div class="card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('<%= asset_path 'default_card.jpg' %>');">
             <% end %>
-            <div class="card-category"><%= room.name %></div>
+            <div class="card-category"><strong><%= room.name %></div></strong>
               <div class="card-description">
                 <p><em>Nombre de places: <%= room.sits %></em></p>
               </div>
-              <% if room.user.photo? %>
-                <%= cl_image_tag room.user.photo.path, height: 30, width: 30, crop: :fill, gravity: :face, class: "card-user avatar" %>
-              <% else %>
-                <%= image_tag "default_profile.jpg", class: "card-user avatar" %>
-              <% end %>
               <%= link_to "", room_path(room), class: "card-link" %>
             </div>
           </div>
@@ -59,8 +54,8 @@
         </div>
         <% if @all_rooms.length > 12 %>
           <hr>
-          <div class="bottom-index">
-            <%= will_paginate @rooms, class: "btn btn-primary btn-page" %>
+          <div class="bottom-index text-center">
+            <%= will_paginate @rooms, class: "btn btn-page" %>
           </div>
         <% end %>
       </div>
@@ -88,7 +83,7 @@
             <%= f.input :catering, label: "Service traiteur" %>
             <%= f.input :photo, as: :attachinary; %>
             <div class="form-actions">
-              <%= f.button :submit %>
+              <%= f.button :submit, "Créer" %>
             </div>
         <% end %>
       </div>

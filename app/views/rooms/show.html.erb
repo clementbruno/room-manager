@@ -1,17 +1,3 @@
-
-<!-- Voir si on integre ou non une banner pour les show, ce n'est eut etre pas tres pertinent -->
-<!-- <div class="banner-cover-img">
-  <% if @room.photo? %>
-    <div class="img-responsive">
-      <%= cl_image_tag @room.photo.path, :width => :auto %>
-    </div>
-  <% else %>
-    <div class="img-responsive">
-      <%= image_tag "default_show.jpg", height: 250 %>
-    </div>
-  <% end %>
-</div> -->
-
 <div class="container room-container">
   <div class="row" >
     <div class="col-xs-12 col-sm-6">
@@ -122,7 +108,7 @@
             <%= f.input :catering, label: "Service traiteur" %>
             <%= f.input :photo, as: :attachinary; %>
             <div class="form-actions">
-              <%= f.button :submit %>
+              <%= f.button :submit, "Mettre à jour", class: "btn btn-info" %>
             </div>
           </div>
         <% end %>
@@ -148,7 +134,7 @@
             <%= f.input :start_time, class: "datepicker" %>
             <%= f.input :end_time, class: "datepicker"%>
             <div class="form-actions">
-              <%= f.button :submit %>
+              <%= f.button :submit, "Réserver", class: "btn btn-info" %>
             </div>
           </div>
         <% end %>
