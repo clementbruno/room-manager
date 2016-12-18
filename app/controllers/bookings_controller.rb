@@ -39,7 +39,7 @@ class BookingsController < ApplicationController
       flash[:alert] = "Votre réservation n'a pas pu être effectuée car les dates que vous avez indiquées ne sont pas valides"
     else
       if @booking.save
-        flash[:notice] = 'Votre réervation a bien été créée'
+        flash[:notice] = 'Votre réservation a bien été créée'
       else
         flash[:alert] = "Votre réservation n'a pas pu être créée"
       end
@@ -50,7 +50,7 @@ class BookingsController < ApplicationController
   def update
     @room = @booking.room
     if @booking.update(booking_params)
-      flash[:notice] = 'Your booking was successfully updated'
+      flash[:notice] = 'Votre réservation a bien été mise à jour'
       redirect_to room_path(@room)
     else
       render :edit
