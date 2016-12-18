@@ -1,13 +1,17 @@
 .btn-page {
-  color: #3397E3;
+  padding: 5px 25px;
+  color: #30102D;
   background-color: white;
-  border: 1px solid #3397E3;
+  border: 1px solid #30102D;
+  margin-bottom: 20px;
 }
 
 .btn-page:hover {
-  color: #3397E3;
+  padding: 5px 27px;
+  color: #30102D;
   background-color: white;
-  border: 1px solid #3397E3;
+  border: 1px solid #30102D;
+  margin-bottom: 20px;
   font-weight: bolder;
 }
 
@@ -16,3 +20,19 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.btn-index {
+  background-color: #30102D;
+  border-color: #30102D;
+  border-radius: 3px;
+  color: white;
+}
+
+.btn-index:hover {
+  background-color: #30102D;
+  border-color: #30102D;
+  border-radius: 3px;
+  font-weight: bold;
+  color: white;
+}
+

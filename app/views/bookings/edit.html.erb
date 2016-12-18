@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container padded">
   <div class="row">
     <div class="col-xs-8 col-xs-offset-2">
       <%= simple_form_for @booking, url: room_booking_path(@booking), html: { method: :patch } do |f| %>
@@ -8,7 +8,7 @@
           <%= f.input :start_time, class: "datepicker" %>
           <%= f.input :end_time, class: "datepicker"%>
           <div class="form-actions">
-            <%= f.button :submit %>
+            <%= f.button :submit, "Mettre à jour", class: "btn btn-info" %>
           </div>
         </div>
       <% end %>
