@@ -4,7 +4,7 @@
       <div class="details">
         <div class="info">
           <h1><%= @room.name %></h1>
-          <p><em><%= @room.user.email %></em></p>
+          <p><em>Contact : <%= @room.user.email %></em></p>
         </div>
         <div class="edit">
             <% if current_user.id == @room.user.id %>
