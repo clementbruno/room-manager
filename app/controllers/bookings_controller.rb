@@ -3,7 +3,7 @@ class BookingsController < ApplicationController
 
   #Afficher les rooms du user qui les a cree
   def index
-    @bookings = Booking.where(user_id: current_user)
+    @bookings = Booking.all
   end
 
   #
